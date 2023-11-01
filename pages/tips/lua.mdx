@@ -1,0 +1,166 @@
+# Lua Guides, tips & tricks
+
+Lua is the most used language in FiveM/RedM. It's extremely beginner friendly which makes it really popular over languages such as C#. Here you'll find some guides on learning lua, writing it and some general tips & tricks to help you write better code!
+
+---
+
+## Guides & useful links
+
+[Lua Beginners Guide by Pohka](https://github.com/pohka/Lua-Beginners-Guide)
+
+[Project Error's style guide](https://github.com/project-error/fivem-lua-style)
+
+[Lua Start Guide by PacktPublishing (More indepth)](https://github.com/PacktPublishing/Lua-Quick-Start-Guide)
+
+[Simple lua logic](https://www.jdoodle.com/ia/fpm)
+
+[Mock FiveM Server](https://github.com/antonstjernquist/fivem-mock-server)
+
+[Simple benchmark for LuaGLM 5.4 (FiveM)](https://gist.github.com/thelindat/939fb0aef8b80a077f76f1a850b2a53d)
+
+---
+
+## Do's and Don'ts
+
+Don't do `GetHashKey('WEAPON_PISTOL')`, do ``GethashKey(`WEAPON_PISTOL`)`` instead. `GetHashKey('WEAPON_PISTOL')` converts a string into a hash each time the function is called. Using backticks will instead convert the string into hash during compilation, so any checks will have it hashed in the first place.
+
+Don't do `GetPlayerPed(-1)`, do `PlayerPedId()` instead. `PlayerPedId()` directly returns your ped, while `GetPlayerPed(-1)` is checking the ped for the local player id. 
+
+Don't do `GetDistanceBetweenCoords(coords, coords)` or `Vdist2(coords, coords)`, do `#(coords - coords)` instead. Using language operations is always faster than calling natives. `#(coords - othercoords)` compares two vector3s and spits out quick maths.
+
+Don't do *insert loop to disable idle camera here*, do `DisableIdleCamera(bool)` instead. Running a native is much faster then running a loop.
+
+Don't do `IsControlJustPressed()` or `IsControlJustReleased()`, do `RegisterKeyMapping()` instead. This requires less lines and is faster then making loops.
+
+Utilize it with `RegisterCommand()` like so:
+
+```lua
+RegisterCommand('MyCommand', function()
+    -- do whatever you want the command to do
+    print("This is my command. Hello World")
+end, false)
+
+RegisterKeyMapping('MyCommand', 'Command Label (settings)', 'keyboard', 'F')
+-- ref for inputs: https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/
+
+-- RegisterCommand() automatically creates a chat suggestion, remove it by doing this:
+TriggerEvent('chat:removeSuggestion', '/MyCommand')
+
+-- You can also tell when a key is released like this:
+RegisterCommand('+command', function()
+    print("Key Pressed!")
+end, false)
+
+RegisterCommand('-command', function()
+    print("Key Released!")
+end, false)
+
+RegisterKeyMapping('+command', 'Command Label (Settings)', 'keyboard', 'F')
+```
+
+
+Always remember to remove an animation after you're done using it.
+
+```lua
+RequestAnimDict('missminuteman_1ig_2')
+while not HasAnimDictLoaded('missminuteman_1ig_2') do
+    Wait(50)
+end
+
+TaskPlayAnim(playerPed, 'missminuteman_1ig_2', 'handsup_enter', 8.0, 8.0, -1, 50, 0, false, false, false)
+RemoveAnimDict('missminuteman_1ig_2')
+```
+
+---
+
+## Snippets
+Here are some useful(?) code snippets you can use.
+
+### Disabling NPCs
+Disable NPC peds: `+set_infinityPopulation 0`
+Disable NPC vehicles (server side):
+```lua
+CreateThread(function()
+    SetRoutingBucketPopulationEnabled(0, false)
+end)
+```
+
+### Format an integer
+
+Ex: 10000 would be 10,000
+```lua
+function formatInt(i)
+    return tostring(i):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+end
+```
+
+### Cleaning a string
+```lua
+function cleanString(x, y)
+    -- x = string
+    -- y = true to save whitespace, default false
+    if y or false then
+        x = string.gsub(tostring(x), '[^%w%s_]', '') -- Save WS
+        return x
+    else
+        x = string.gsub(tostring(x), '[^%w_]', '') -- Kill WS
+        return x
+    end
+end
+```
+
+### Get a users playtime
+```lua
+local serverCode = "7b6bor" -- Variable just for the example but you should set the server code directly in the URL
+RegisterNetEvent("PrintMyPlayTimeInConsole", function()
+    local _source = source
+    local fivemId = GetFivemId(GetPlayerIdentifiers(_source))
+    if fivemId then
+        PerformHttpRequest("https://lambda.fivem.net/api/ticket/playtimes/%22..serverCode..%22?identifiers[]=%22..fivemId, function(responseCode, resultData)
+            if responseCode == 200 then
+                resultData = json.decode(resultData)
+                print(_source.." has a playtime of "..resultData[1].seconds.." seconds!")
+            end
+        end)
+    else
+        print("Can't find fivem id of ".._source)
+    end
+end)
+
+function GetFivemId(userIds) -- Probably not the best way
+    for i = 1, #userIds, 1 do
+        if string.sub(userIds[i], 1, string.len("fivem:")) == "fivem:" then
+            return userIds[i]
+        end
+    end
+    return nil
+end
+```
+
+### Walk injured when damaged
+```lua
+local hurt = false
+CreateThread(function()
+    while true do
+        Wait(0)
+        if GetEntityHealth(PlayerPedId()) <= 159 then
+            setHurt()
+        elseif hurt and GetEntityHealth(PlayerPedId()) > 160 then
+            setNotHurt()
+        end
+    end
+end)
+
+function setHurt()
+    hurt = true
+    RequestAnimSet("move_m@injured")
+    SetPedMovementClipset(PlayerPedId(), "move_m@injured", true)
+end
+
+function setNotHurt()
+    hurt = false
+    ResetPedMovementClipset(PlayerPedId())
+    ResetPedWeaponMovementClipset(PlayerPedId())
+    ResetPedStrafeClipset(PlayerPedId())
+end
+```

@@ -1,29 +1,20 @@
-/* Credits to Andyyy, https://github.com/ND-Framework/documentation/blob/main/components/double_linked_images.module.css */
 
 .imageLink {
     display: inline;
     margin: auto 4% auto auto;
 }
-.imageLink2 {
-    display: inline;
-}
 
 .image {
     display: inline;
-    width: 50%;
-    margin-bottom: 10px
+    height: 100%;
 }
-.image2 {
-    display: inline;
-    width: 45%;
-    margin-bottom: 10px
-}
-.image, .image2 {
+
+.image {
     border: .07rem solid #373a40;
     border-radius: 10px;
     transition: border-color .2s ease, scale .2s ease;
 }
-.image:hover, .image2:hover {
+.image:hover {
     border-color: #228be6;
     scale: 0.98;
 }
@@ -35,11 +26,7 @@
         width: 100%;
         margin: auto auto 7% auto;
     }
-    .imageLink2 {
-        display: block;
-        width: 100%;
-    }
-    .image, .image2 {
+    .image {
         display: block;
         width: 100%;
     }

@@ -8,6 +8,12 @@
         "href": "https://threeamigos.shop",
         "newWindow": true
     },
+    "perimeter": {
+        "title": "Perimeter Gaming",
+        "type": "page",
+        "href": "https://discord.gg/perimeter",
+        "newWindow": true
+    },
     "hosting": {
         "title": "Hosting",
         "type": "page",

@@ -1,1 +1,21 @@
 # Changelog
+
+Easily inform your players of server changelogs or announcements each time they join your server. Can be configured to display any message you like.
+
+## Installation
+
+1. Download `ox_lib` if you don't have it already. Make sure to download the [release](https://github.com/overextended/ox_lib/releases/latest)
+2. Download `TAM_changelog` from [Github](https://github.com/ThreeAmigosModding/TAM_changelog) or [Keymaster](https://keymaster.fivem.net)
+3. Drag and drop **both** `ox_lib` and `TAM_changelog` into your resources folder.
+4. Add `ox_lib` and `TAM_changelog` to your server or resources.cfg. Always be sure that ox_lib is starting first
+```cfg
+ensure ox_lib
+ensure TAM_changelog
+```
+5. Done! You're ready to configure it.
+
+## Configuration
+
+1. Edit `config.lua` in your favorite code editor/IDE to your liking. 
+2. Edit `changelog.md` to fit your latest changelog. This fully supports markdown.
+3. You're good to go! Any changes you make to `changelog.md` will automatically update in game and display to the players.
