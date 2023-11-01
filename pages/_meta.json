@@ -1,0 +1,17 @@
+{
+    "index": "Introduction",
+    "tips": "Tips & Tricks",
+    "resources": "Resources",
+    "store": {
+        "title": "Store",
+        "type": "page",
+        "href": "https://threeamigos.shop",
+        "newWindow": true
+    },
+    "hosting": {
+        "title": "Hosting",
+        "type": "page",
+        "href": "https://prism-host.com",
+        "newWindow": true
+    }
+}
