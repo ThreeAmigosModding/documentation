@@ -22,7 +22,7 @@ Lua is the most used language in FiveM/RedM. It's extremely beginner friendly wh
 
 ## Do's and Don'ts
 
-Don't do `GetHashKey('WEAPON_PISTOL')`, do ``GethashKey(`WEAPON_PISTOL`)`` instead. `GetHashKey('WEAPON_PISTOL')` converts a string into a hash each time the function is called. Using backticks will instead convert the string into hash during compilation, so any checks will have it hashed in the first place.
+Don't do `GetHashKey('WEAPON_PISTOL')`, do ```WEAPON_PISTOL``` instead. `GetHashKey('WEAPON_PISTOL')` converts a string into a hash each time the function is called. Using backticks will instead convert the string into hash during compilation, so any checks will have it hashed in the first place.
 
 Don't do `GetPlayerPed(-1)`, do `PlayerPedId()` instead. `PlayerPedId()` directly returns your ped, while `GetPlayerPed(-1)` is checking the ped for the local player id. 
 
