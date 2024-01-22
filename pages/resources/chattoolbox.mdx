@@ -1,0 +1,83 @@
+---
+title: Chat Toolbox
+---
+
+# Chat Toolbox
+
+Easily and quickly create as many commands as you'll ever need with this modular toolbox at your disposal! Offering many commands out of the box with support for all of the major frameworks (and standalone!) out of the box.
+
+
+## Installation
+1. Download or update `ox_lib`. Make sure to download the [release](https://github.com/overextended/ox_lib/releases/latest)
+2. Download `TAM_chattoolbox` from [Github](https://github.com/ThreeAmigosModding/TAM_chattoolbox) or [Keymaster](https://keymaster.fivem.net)
+3. Drag and drop **both** `ox_lib` and `TAM_chattoolbox` into your resources folder.
+4. Add `ox_lib` and `TAM_chattoolbox` to your server or resources.cfg. Always be sure that `ox_lib` is starting first
+```cfg
+ensure ox_lib
+ensure TAM_changelog
+```
+5. Done! You're ready to configure it.
+
+## Configuration
+
+1. Edit `config.lua` located at `data/config.lua` in your favorite code editor/IDE to your liking.
+2. Edit `commands.lua` located at `data/commands.lua` in your favorite code editor/IDE to your liking. See [here](http://localhost:3000/resources/chattoolbox#command-parameters) for all the available options
+2. Edit `server.lua` located at `modules/callbacks/modules.lua` in your favorite code editor/IDE to your liking. See [here](http://localhost:3000/resources/chattoolbox#callbacks) for all the available options
+3. Edit `modes.lua` located at `data/modes.lua` in your favorite code editor/IDE to your liking. See [here](http://localhost:3000/resources/chattoolbox#mode-parameters) for all the available options
+
+
+### Command Parameters
+
+We've setup commands to be dynamic, meaning you can register as many commands as you want. 
+
+In order to change the command name, change the string that's infront of it. Ex: `commands["commandName"] = {options}`
+
+Here's the available options:
+- enabled: `boolean`
+  - Enable or disable the command.
+- description: `string`
+  - The description or help text to display when the command is entered.
+- global?: `boolean`
+  - Enable or disabling the command being seen by everyone on the server or just locally.
+  - If not specified, it defaults to global.
+- groups: `string` or `table` or `boolean`
+  - Group(s) that have the permission to use the command, set to false to allow everyone.
+  - Specify either the name of an ace perm group or the name of a ND Core group.
+- params?: `table[]`
+  - name: `string`
+  - type: `'string'` or `'number'` or `'playerId'`
+  - help: `string`
+  - optional: `parameter`
+- prefix?: `string`
+  - The prefix that ammended to the message
+- message?: `string`
+  - Message to send back in the chat to the player when the command is ran.
+
+### Callbacks
+
+Callbacks are functions that are ran for the specific command, for example:
+
+```lua
+callbacks["players"] = function(source, args, rawCommand, info)
+    local players = Utils.getPlayerCount()
+    TriggerClientEvent("chat:addMessage", source, {args = {info.prefix .. ("There are currently %s players online"):format(players)}})
+end
+```
+
+will send a chat message saying the current number of players on the server whenever someone runs the `players` command.
+
+### Mode Parameters
+
+Modes are chat modes that are setup to be modular to add unlimited chat modes.
+
+Here's the list of options:
+- displayName: `string` 
+  - What the display name should be for the chat mode.
+- color: `string`
+  - Color of the display name on the chat box.
+- groups: `string` or `table` or `boolean`
+  - Groups that have access to see & send messages in the mode.
+  - Set to false to allow all players to see messages.
+- prefix: `string` or `boolean`
+  - Prefix to ammend to messages sent in this group.
+  - Set to false ti disable.
