@@ -9,9 +9,9 @@ Easily and quickly create as many commands as you'll ever need with this modular
 
 ## Installation
 1. Download or update `ox_lib`. Make sure to download the [release](https://github.com/overextended/ox_lib/releases/latest)
-2. Download `TAM_chattoolbox` from [Github](https://github.com/ThreeAmigosModding/TAM_chattoolbox) or [Keymaster](https://keymaster.fivem.net)
-3. Drag and drop **both** `ox_lib` and `TAM_chattoolbox` into your resources folder.
-4. Add `ox_lib` and `TAM_chattoolbox` to your server or resources.cfg. Always be sure that `ox_lib` is starting first
+2. Download `TAM_ChatToolBox` from [Github](https://github.com/ThreeAmigosModding/TAM_chattoolbox) or [Keymaster](https://keymaster.fivem.net)
+3. Drag and drop **both** `ox_lib` and `TAM_ChatToolBox` into your resources folder.
+4. Add `ox_lib` and `TAM_ChatToolBox` to your server or resources.cfg. Always be sure that `ox_lib` is starting first
 ```cfg
 ensure ox_lib
 ensure TAM_changelog
@@ -59,7 +59,7 @@ Callbacks are functions that are ran for the specific command, for example:
 
 ```lua
 callbacks["players"] = function(source, args, rawCommand, info)
-    local players = Utils.getPlayerCount()
+    local players = Bridge.getPlayerCount()
     TriggerClientEvent("chat:addMessage", source, {args = {info.prefix .. ("There are currently %s players online"):format(players)}})
 end
 ```
@@ -80,4 +80,4 @@ Here's the list of options:
   - Set to false to allow all players to see messages.
 - prefix: `string` or `boolean`
   - Prefix to ammend to messages sent in this group.
-  - Set to false ti disable.
+  - Set to false to disable.
