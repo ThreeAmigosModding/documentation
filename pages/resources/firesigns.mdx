@@ -9,75 +9,78 @@ Warn the citizens of San Andreas with our fully customizable fire danger warning
 
 ## Installation
 1. Download or update `ox_lib`. Make sure to download the [release](https://github.com/overextended/ox_lib/releases/latest)
+    - Download or update `ox_target` (optional). Make sure to download the [release](https://github.com/overextended/ox_target/releases/latest)
 2. Download `TAM_FireSigns` from [Keymaster](https://keymaster.fivem.net)
 3. Drag and drop **both** `ox_lib` and `TAM_ChatToolBox` into your resources folder.
 4. Add `ox_lib` and `TAM_FireSigns` to your server or resources.cfg. Always be sure that `ox_lib` is starting first
 ```cfg
 ensure ox_lib
+ensure ox_target # If using it
 ensure TAM_FireSigns
 ```
 5. Done! You're ready to configure it.
 
 ## Configuration
 
-1. Edit `config.lua` located at `data/config.lua` in your favorite code editor/IDE to your liking.
-2. Edit `commands.lua` located at `data/commands.lua` in your favorite code editor/IDE to your liking. See [here](http://localhost:3000/resources/chattoolbox#command-parameters) for all the available options
-2. Edit `server.lua` located at `modules/callbacks/modules.lua` in your favorite code editor/IDE to your liking. See [here](http://localhost:3000/resources/chattoolbox#callbacks) for all the available options
-3. Edit `modes.lua` located at `data/modes.lua` in your favorite code editor/IDE to your liking. See [here](http://localhost:3000/resources/chattoolbox#mode-parameters) for all the available options
+1. Edit `configuration.lua` located at `data/configiguration.lua` in your favorite code editor/IDE to your liking.
+2. Optional - Edit the default spawns in `data/spawns.lua`
 
+### Config Explanation
 
-### Command Parameters
+Here's the available config options:
+- config.debug: `boolean`
+  - Enable or disable debug commands. Default: `true`
+- config.commands: `table`
+  - enabled: `boolean`
+    - Should commands be enabled. Default: `true`
+  - changeSignCommand: `string`
+    - Command to change the closest sign's danger level. Default: `"changedangerlevel"`
+  - addSignCommand: `string`
+    - Debug command to create a new sign at the players position and copy the information to your clipboard to easily paste into the spawns.lua file. Default: `"addsign"`
+  - delSignCommand: `string`
+    - Debug command to delete the closest sign. Default: `"delsign`
+  - delAllSignsCommand: `string`
+    - Debug command to delete all signs on the server. Recommended to run this before restarting the resource to prevent crashing. Default: `"delallsigns"`
+  - copyPedPosCommand: `string`
+    - Debug command to copy your ped position to your clipboard in the format to easily paste into the spawns.lua file. Default `"copypedpos'`
+  - copySignPosCommand: `string`
+    - Debug command to copy the nearest signs position to your clipboard in the format to easily paste into the spawns.lua file. Default `"copysignpos"`
+  - groups: `string`|`boolean`
+    - The ace permission or job group (if using a framework). Default: `false`
+  - commandDistance: `integer`
+    - Distance to check closest sign for commands that require distance.
+- config.target: `table`
+  - enabled: `boolean`
+    - Enable or disable the 3d eye / target systemL Default: `true`
+  - resource: `string`
+    - Set the target resource. Supported: "ox_target", "custom". Default: `"ox_target"`
+  - icon: `string`
+    - Set ox_target icon. Accepts any font-awesome free icons. Can be ignored if using custom target resource. Default: `"fas fa-fire"`
+  - distance: `integer`
+    - Set ox_target interact distance. Can be ignored if using custom target resource. Default: `3`
+  - customTarget: `function`
+    - Add your custom target function here. This gets ran on the client, and should not be iterated nor put in a thread. List of available models are: `tam_firesign_a`, `tam_firesign_b`, `tam_firesign_c`, `tam_firesign_d`, `tam_firesign_e`. Leave empty if not using a custom target resource.
 
-We've setup commands to be dynamic, meaning you can register as many commands as you want. 
+### Spawns
 
-In order to change the command name, change the string that's infront of it. Ex: `commands["commandName"] = {options}`
+You can remove or add custom locations around the map in the `data/spawns.lua` file. Be sure to follow this format:
 
-Here's the available options:
-- enabled: `boolean`
-  - Enable or disable the command.
-- description: `string`
-  - The description or help text to display when the command is entered.
-- global?: `boolean`
-  - Enable or disabling the command being seen by everyone on the server or just locally.
-  - If not specified, it defaults to global.
-- groups: `string` or `table` or `boolean`
-  - Group(s) that have the permission to use the command, set to false to allow everyone.
-  - Specify either the name of an ace perm group or the name of a ND Core group.
-- params?: `table[]`
-  - name: `string`
-  - type: `'string'` or `'number'` or `'playerId'`
-  - help: `string`
-  - optional: `parameter`
-- prefix?: `string`
-  - The prefix that ammended to the message
-- message?: `string`
-  - Message to send back in the chat to the player when the command is ran.
+  ```lua
+      local spawns = {
+        {	
+            coords = {	-- xyz coordinants of where the sign should be.
+                x = -1488.623779296875,
+                y =  4989.982421875, 	
+                z = 63.20363998413086	
+            },	
+            heading = 49.19453811645508, -- heading or rotation of the sign. May have to add 90 to it.
+            model = `tam_firesign_a`-- model hash to spawn. Do not use GetHashKey()!
+        }, -- don't forget a comma here.
+      }
+  ```
 
-### Callbacks
+### Locales
+  
+You can easily change all locales in the `locales` directory. Edit the .json file of the respective language you want to change. Clients are able to set their preferred language via `/ox_lib` command. See more information [here](https://overextended.dev/ox_lib/Modules/Locale/Shared)
 
-Callbacks are functions that are ran for the specific command, for example:
-
-```lua
-callbacks["players"] = function(source, args, rawCommand, info)
-    local players = Bridge.getPlayerCount()
-    TriggerClientEvent("chat:addMessage", source, {args = {info.prefix .. ("There are currently %s players online"):format(players)}})
-end
-```
-
-will send a chat message saying the current number of players on the server whenever someone runs the `players` command.
-
-### Mode Parameters
-
-Modes are chat modes that are setup to be modular to add unlimited chat modes.
-
-Here's the list of options:
-- displayName: `string` 
-  - What the display name should be for the chat mode.
-- color: `string`
-  - Color of the display name on the chat box.
-- groups: `string` or `table` or `boolean`
-  - Groups that have access to see & send messages in the mode.
-  - Set to false to allow all players to see messages.
-- prefix: `string` or `boolean`
-  - Prefix to ammend to messages sent in this group.
-  - Set to false to disable.
+If you want to add a new language, simply copy one of the .json files and rename it to the relative [ISO Language Code](http://www.lingoes.net/en/translator/langcode.htm), then begin translating. If you wish to submit your translate to be release, please open a ticket in our Discord.
