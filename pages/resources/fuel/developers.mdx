@@ -1,0 +1,19 @@
+# Fuel developer documenation
+
+Here you will find a basic list of how you can modify our resource if you are a developer. This assumes you have *at minimum* basic knowledge of how FiveM works and the lua scripting language.
+
+## Setting fuel
+
+```lua
+Entity(vehicleId).state.fuelLevel = fuelAmount
+```
+
+## Getting fuel
+
+```lua
+local fuelLevel = Entity(vehicleId).state.fuelLevel
+```
+
+## Configuring your own integrations
+
+All of the bridge files are located in `modules/bridge` directory. This requires decent knowledge of the lua scripting language and how FiveM works. This is mostly unsupported and you're on your own.

@@ -1,0 +1,623 @@
+# Configuration
+
+On this page we will go over how to configure TAM_Fuel. All configuration files are in the `data/` directory.
+
+
+## Main Configuration
+
+The primary configuration file is `data/configuration.lua`. Here you will find all of the primary configuration options.
+```lua
+config.debug = false -- Enables or disables the debug commands. (Currently the spawning of props & fuel management)
+
+config.userSettings = true -- Should users be able to customize various settings on their end? (Load distances, hose styles, etc)
+
+config.spawnAdditionalGasPumps = true -- should the additional pumps defined in data/gasPumps.lua be spawned?
+
+config.spawnChargers = true -- should the EV Chargers defined in data/chargerSpawns.lua be spawned?
+
+config.spawnTanks = true -- should the gas tanks defined in data/tankSpawns.lua be spawned?
+
+config.enableHose = true -- Should we use the hose or not? May be buggy, use at ur own discretion.
+
+config.hoseStyle = 3 -- Hose style. 1 - Thin Khaki | 2 - Thick Khaki | 3 - Thick Black (Default) | 4 - Really thin Black
+
+config.hoseLength = 10 -- Default hose length
+
+config.maxHoseLength = 20 -- The maximum hose length before it breaks.
+
+config.explosionsEnabled = true -- Should the gas pumps explode when the hose is stretched too far.
+
+config.enableFuelHud = true -- Enable or disable the fuel hud UI.
+
+config.hudStyle = "classic" -- Classic or Modern fuel hud style
+
+config.enableFuelUI = true -- Enable to disable the fuel UI
+
+config.soundsEnabled = true -- Enable and disable the sound effects
+
+config.entityLoadDistance = 100 -- The distance to load spawned props & peds in at.
+
+config.enableBlips = true -- Should blips be enabled?
+
+config.blipDisplay = "shown" -- How should blips be displayed? shown | nearby
+
+config.fuelTickRate = 250 -- Fuel tick time in milliseconds. This is how often a vehicles fuel level will be updated.
+
+-- Sets fuel consumption rate multiplier for all vehicles. This is a way to slow down or speed up fuel consumption for all vehicles at a time.
+-- When the multiplier is set to 1 a default 65 litre gas tank car with average fuel consumption can stay idle for ~1.67 hours or run with max RPM for 15 minutes.
+config.globalFuelConsumptionRate = 1.0 -- Default 1.0, don"t recommend changing.
+
+config.inventory = {
+    enabled = false, -- Enable or disable inventory integration. This is currently for the jerry can functionality.
+    resource = "ox" -- Inventory Resource. Set custom in the respective bridge files per your framework.
+}
+
+config.rate = { -- price & fill rates per fuel type.
+    gas = {
+        price = 0.15, -- price per tick
+        fillRate = 0.25, -- how much to fill per tick. (ie: every 250ms add 0.25%)
+    },
+    electric = {
+        price = 0.20, -- price per tick
+        fillRate = 0.25, -- how much to fill per tick. (ie: every 250ms add 0.25%)
+    },
+    diesel = {
+        price = 0.23, -- price per tick
+        fillRate = 0.25, -- how much to fill per tick. (ie: every 250ms add 0.25%)
+    },
+    jetFuel = {
+        price = 0.25, -- Price per tick,
+        fillRate = 0.25 -- How much to fill per tick. (ie: every 250ms add 0.25%)
+    }
+}
+
+config.jerryCan = { -- jerry can configuration
+    enabled = true, -- enable refilling via Jerry can and purchasing a jerry can from pump/ped.
+    duration = 5000, -- Duration it takes to fill up car.
+    price = 1000, -- price to purchase jerry can.
+    refillPrice = 800, -- price to refill jerry can.
+    pumpEnabled = true, -- Should the player be able to purchase a jerry can from a pump? 
+    pedsEnabled = true, -- Should the player be able to purchase a jerry can from a ped that spawns nearby?
+    pumps = {
+        `prop_gas_pump_old2`,
+        `prop_gas_pump_old3`,
+        `prop_gas_pump_1a`,
+        `prop_gas_pump_1c`,
+        `prop_gas_pump_1b`,
+        `prop_gas_pump_1d`,
+        `prop_vintage_pump`,
+        `denis3d_prop_gas_pump` -- Gabz gas station pump model
+    }
+}
+
+config.target = {
+    enabled = true, -- should target be enabled. Currently this is the only way to interact with anything.
+    targetResource = "ox_target", -- target resource name. "ox_target" | "qb-target" | "custom".
+    distance = 4, -- Interact distance
+    bones = { -- List of bones to detect for when placing or grabbing the nozzle from the vehicle - or fueling with a jerrycan.
+        "petrolcap",
+        "petroltank",
+        "petroltank_l",
+        "hub_lr",
+        "handle_dside_r",
+        "engine"
+    }
+}
+
+config.progress = {
+    resource = "ox_lib", -- progress bar resource. Supports "ox_lib" or "custom"
+    type = "bar", -- Should use bar or circle? Only used if progressResource = "ox_lib"
+    customProgress = function() -- Put custom progress bar logic here.
+        if lib.progressBar({
+            duration = config.jerryCan.duration,
+            label = "Fueling Car",
+            useWhileDead = false,
+            canCancel = true,
+            disable = {
+                car = true,
+                move = true,
+                combat = true,
+            },
+            anim = {
+                dict = "weapon@w_sp_jerrycan",
+                clip = "fire"
+            },
+        }) then
+            return true -- return true when finished. This is important
+        else
+            return false -- Make sure to return false if cancelled or not finished. This is important.
+        end
+    end
+}
+
+config.gasModels = { -- Models that support the fuel type "gas". Please note the backticks ( ` ) and not ' or "
+    `prop_gas_pump_old2`, 
+    `prop_gas_pump_1a`,
+    `prop_vintage_pump`,
+    `prop_gas_pump_old3`,
+    `prop_gas_pump_1c`,
+    `prop_gas_pump_1b`,
+    `prop_gas_pump_1d`,
+    `denis3d_prop_gas_pump`
+}
+
+config.electricModels = { -- Models that support the fuel type "electric". Please note the backticks ( ` ) and not ' or "
+    `tam_ev_charger`
+}
+
+config.dieselModels = { -- Models that support the fuel type "diesel". Please note the backticks ( ` ) and not ' or "
+    `prop_gas_pump_1a`,
+    `prop_gas_pump_1c`,
+    `prop_gas_pump_1b`,
+    `prop_gas_pump_1d`,
+    `prop_vintage_pump`,
+    `denis3d_prop_gas_pump` -- Gabz gas station pump model
+}
+
+config.jetFuelModels = { - -- Models that support the fuel type "jetFuel / AVGas". Please note the backticks ( ` ) and not ' or "
+    `utillitruck2`,
+    `prop_gas_tank_04a`
+}
+
+config.allPumpModels = { -- List of all pump models, for registering the 3rd eye. Please note the backticks ( ` ) and not ' or "
+    `utillitruck2`,
+    `prop_gas_tank_04a`,
+    `prop_gas_pump_1a`,
+    `prop_gas_pump_1c`,
+    `prop_gas_pump_1b`,
+    `prop_gas_pump_1d`,
+    `prop_vintage_pump`,
+    `denis3d_prop_gas_pump`, -- Gabz gas station pump model
+    `prop_gas_pump_old2`,
+    `prop_gas_pump_old3`,
+}
+
+config.pumpOffsets = { -- Hose offsets for the pumps. 
+    [`utillitruck2`] = vec3(0, 0, -0.2),
+    [`prop_gas_tank_04a`] = vec3(0, 0, 2.5),
+    [`prop_gas_pump_1a`] = vec3(0, 0, 2.3),
+    [`prop_gas_pump_1c`] = vec3(0, 0, 2.3),
+    [`prop_gas_pump_1b`] = vec3(0, 0, 2.3),
+    [`prop_gas_pump_1d`] = vec3(0, 0, 2.3),
+    [`prop_vintage_pump`] = vec3(0, 0, 1.15),
+    [`denis3d_prop_gas_pump`] = vec3(0, 0, 2), -- Gabz gas station pump model
+    [`prop_gas_pump_old2`] = vec3(0, 0, 0.9),
+    [`prop_gas_pump_old3`] = vec3(0, 0, 0.9),
+    [`tam_ev_charger`] = vec3(0, 0, 0.7),
+}
+
+config.vehicleOffsets = { -- Specific vehicle nozzle placement offsets.
+    [`conada`] = vec3(0, 0, 0),
+    [`emperor2`] = vec3(0, 0, -0.25),
+    [`neon`] = vec3(0, 0, -0.25)
+}
+```
+
+## Gas station blip configuration
+
+The gas station blip configuration is located in `data/blips.lua`
+
+```lua
+{
+    sprite = 361, -- Blip sprite
+    scale = 0.9, -- Blip scale
+    color = 47, -- Blip color
+    label = locale("blip_gas_station"), -- The label, to change whats displayed is in the locales directory.
+    coords = vector3(49.4187, 2778.793, 58.043), -- blip coords
+},
+```
+
+## Blacklist
+
+You can find the blacklisted vehicles & classes in `data/blacklisted.lua`.
+
+```lua
+local blacklisted = {
+    vehicles = { -- individual vehicle models you want to exclude from consuming any fuel/electricity
+        `bmx`, -- make sure to use backticks ` and not ' or "
+    },
+    classes = { -- vehicle classes you want to exclude from consuming any fuel/electricity
+        13 -- cycles
+    }
+}
+```
+
+## EV Charger spawns
+
+You can find the EV charger spawn locations in `data/chargerSpawns.lua`.
+
+If debug is enabled you can use the command `/spawncharger` to spawn a charger at your location and move it around with the gizmo. Once you confirm the placement, the information will be copied to your clipboard in order to easily paste it into the data file.
+
+```lua
+{
+    model = `tam_ev_charger`, -- Model name. Please note the usage of backticks ( ` ) and not ' or "
+    coords = vec3(1979.3096923828, 3786.5815429688, 31.091621398926), -- Coords
+    heading = 31.173387527466, -- heading
+    blip = {
+        enabled = true, -- Should a blip be displayed for this charger?
+        sprite = 620, -- Blip sprite
+        color = 26, -- blip color
+        label = locale("blip_ev_charger"), -- blip label. Change in locales directory
+    }
+},
+```
+
+## Pump spawns
+
+You can find the additional gas pump spawn locations in `data/pumpSpawns.lua`.
+
+If debug is enabled you can use the command `/spawnpump` to spawn the chosen pump at your location and move it around with the gizmo. Once you confirm the placement, the information will be copied to your clipboard in order to easily paste it into the data file.
+
+```lua
+{
+    model = `prop_gas_pump_old2`, -- Model name. Please note the usage of backticks ( ` ) and not ' or "
+    coords = vec3(-1488.623779296875, 4989.982421875, 63.2036399841308), -- Coords
+    heading = 49.19453811645508, -- heading
+    blip = {
+        enabled = false,  -- Should a blip be displayed for this pump?
+        sprite = 361, -- Blip sprite
+        color = 47,  -- blip color
+        label = locale("blip_gas_pump"),  -- blip label. Change in locales directory
+    }
+},
+```
+
+## Ped spawns
+
+You can find the ped spawn locations in `data/pedSpawns.lua`.
+
+```lua
+{
+    model = `a_m_m_salton_02`, -- Ped model to spawn. Please note the usage of backticks ( ` ) and not ' or "
+    scenario = "WORLD_HUMAN_AA_SMOKE", -- Scenario to play on the ped.
+    coords = vec3(1778.3229980469, 3325.3488769531, 40.877124786377), -- Ped coords
+    heading = 308, -- Ped Heading
+    options = { -- if using ox_target, if not, leave this blank and setup ur own in the client-side bridge.
+        { -- Highly discouraged to touch this unhless you're not using ox_target.
+            label = locale("buy_jerry_can"),
+            name = "buy_jerry_can_diesel",
+            icon = 'fas fa-gas-pump',
+            distance = 2,
+            canInteract = function(entity, distance, coords, name, bone)
+                return Config.jerryCan.pumpEnabled and Config.jerryCan.enabled and not Bridge.hasJerryCan()
+            end,
+            onSelect = function(data)
+                exports.TAM_Fuel:purchaseJerryCan()
+            end
+        },
+        {
+            label = locale("refill_jerry_can"),
+            name = "refill_jerry_can_diesel",
+            icon = 'fas fa-gas-pump',
+            distance = 2,
+            canInteract = function(entity, distance, coords, name, bone)
+                return Config.jerryCan.pumpEnabled and Config.jerryCan.enabled and Bridge.hasJerryCan()
+            end,
+            onSelect = function(data)
+                exports.TAM_Fuel:refillJerryCan()
+            end
+        }
+    },
+    blip = {
+        enabled = false, -- enable blip
+        sprite = 361, -- blip sprite
+        color = 6, -- blip color
+        scale = 0.9, -- blip scale
+        label = locale("blip_jerry_can_purchase"), -- blip label. Change in locales directory.
+    }
+}
+```
+
+## AVGas Tank Spawns
+
+You can find the AV Gas tank spawn locations in `data/tankSpawns.lua`.
+
+If debug is enabled you can use the command `/spawntank` to spawn the chosen tank at your location and move it around with the gizmo. Once you confirm the placement, the information will be copied to your clipboard in order to easily paste it into the data file.
+
+```lua
+{
+    model = `prop_gas_tank_04a`, -- Model name. Please note the usage of backticks ( ` ) and not ' or "
+    coords = vec3(1754.6345214844, 3230.7419433594, 41.218826293945), -- Coords
+    heading = 0.021085804328322, -- heading
+    blip = {
+        enabled = true, -- Should a blip be displayed for this pump?
+        sprite = 424, -- Blip sprite
+        color = 2, -- blip color
+        label = locale("blip_avgas_tank"), -- blip label. Change in locales directory
+    }
+},
+```
+
+## Diesel Vehicles
+
+You can find the configuration for diesel vehicles in `data/dieselVehicles.lua`.
+
+```lua
+return {
+    `apc`, -- Please note the usage of backticks ( ` ) and not ' or "
+    `barracks`,
+    `barracks2`,
+    `barracks3`,
+    `barrage`,
+    `halftrack`,
+    `khanjali`,
+    `minitank`,
+    `rhino`,
+    `scarab`,
+    `scarab2`,
+    `scarab3`,
+    `vetir`,
+    `benson`,
+    `benson2`,
+    `biff`,
+    `cerberus`,
+    `cerberus2`,
+    `cerberus3`,
+    `hauler`,
+    `hauler2`,
+    `mule`,
+    `mule2`,
+    `mule3`,
+    `mule4`,
+    `mule5`,
+    `packer`,
+    `phantom`,
+    `phantom2`,
+    `phantom3`,
+    `phantom4`,
+    `pounder`,
+    `stockade`,
+    `stockade3`,
+    `terbyte`,
+    `squaddie`,
+    `yosemite`,
+    `yosemite2`,
+    `yosemite3`,
+    `bruiser`,
+    `bruiser2`,
+    `bruiser3`,
+    `dloader`,
+    `insurgent`,
+    `insurgent2`,
+    `insurgent3`,
+    `marshall`,
+    `monster`,
+    `monster3`,
+    `monster4`,
+    `monster5`,
+    `patriot3`,
+    `sandking`,
+    `sandking2`,
+    `zhaba`,
+    `bulldozer`,
+    `cutter`,
+    `dump`,
+    `flatbed`,
+    `guardian`,
+    `handler`,
+    `mixer`,
+    `mixer2`,
+    `rubble`,
+    `tiptruck`,
+    `tiptruck2`,
+    `docktug`,
+    `ripley`,
+    `forklift`,
+    `scraptruck`,
+    `slamtruck`,
+    `towtruck`,
+    `towtruck2`,
+    `towtruck3`,
+    `towtruck4`,
+    `tractor`,
+    `tractor2`,
+    `tractor3`,
+    `utillitruck`,
+    `utillitruck2`,
+    `utillitruck3`,
+    `boxville`,
+    `boxville2`,
+    `boxville3`,
+    `boxville4`,
+    `boxville5`,
+    `boxville6`,
+    `taco`,
+    `airbus`,
+    `brickade`,
+    `brickade2`,
+    `bus`,
+    `coach`,
+    `pbus`,
+    `pbus2`,
+    `rallytruck`,
+    `rentalbus`,
+    `tourbus`,
+    `trash`,
+    `trash2`,
+    `wastelander`,
+    `sandking`,
+    `sanking2`,
+}
+```
+
+## Electric Vehicles
+
+You can find the configuration for electric vehicles in `data/electricVehicles.lua`.
+
+```lua
+return {
+    `airtug`, -- Please note the usage of backticks ( ` ) and not ' or "
+    `neon`,
+    `raiden`,
+    `caddy`,
+    `caddy2`,
+    `caddy3`,
+    `cyclone`,
+    `cyclone2`,
+    `coureur`,
+    `dilettante`,
+    `dilettante2`,
+    `surge`,
+    `tezeract`,
+    `imorgon`,
+    `khamelion`,
+    `voltic`,
+    `voltic2`,
+    `iwagen`,
+    `buffalo5`,
+    `inductor`,
+    `inductor2`,
+    `omnisegt`,
+    `powersurge`,
+    `virtue`,
+    `rcbandito`,
+}
+```
+
+## AVGas / JetFuel Vehicles
+
+You can find the configuration for jetfuel vehicles in `data/jetFuelVehicles.lua`.
+
+```lua
+return {
+    `akula`, -- Please note the usage of backticks ( ` ) and not ' or "
+    `annihilator`,
+    `annihilator2`,
+    `buzzard`,
+    `buzzard2`,
+    `cargobob`,
+    `cargobob2`,
+    `cargobob3`,
+    `cargobob4`,
+    `conada`,
+    `conada2`,
+    `frogger`,
+    `frogger2`,
+    `havoc`,
+    `hunter`,
+    `maverick`,
+    `polmav`,
+    `savage`,
+    `seasparrow`,
+    `seasparrow2`,
+    `seasparrow3`,
+    `skylift`,
+    `supervolito`,
+    `supervolito2`,
+    `swift`,
+    `swift2`,
+    `valkyrie`,
+    `valkyrie2`,
+    `volatus`,
+    `alkonost`,
+    `alphaz1`,
+    `avenger`,
+    `avenger2`,
+    `avenger3`,
+    `avenger4`,
+    `besra`,
+    `blimp`,
+    `blimp2`,
+    `blimp3`,
+    `bombushka`,
+    `cargoplane`,
+    `cargoplane2`,
+    `cuban800`,
+    `dodo`,
+    `duster`,
+    `howard`,
+    `hydra`,
+    `jet`,
+    `lazer`,
+    `luxor`,
+    `luxor2`,
+    `mammatus`,
+    `microlight`,
+    `miljet`,
+    `mogul`,
+    `molotok`,
+    `nimbus`,
+    `nokota`,
+    `pyro`,
+    `raiju`,
+    `rogue`,
+    `seabreeze`,
+    `shamal`,
+    `starling`,
+    `streamer216`,
+    `strikeforce`,
+    `stunt`,
+    `titan`,
+    `tula`,
+    `velum`,
+    `velum2`,
+    `vestra`,
+    `volatol`
+}
+```
+
+## Fuel rate configs
+
+You can setup the fuel rates per vehicle RPM percentage and per vehicle class in the `data/fuelRates.lua` file.
+
+```lua
+rpm = { -- First number is RPM percent, second is fuel usage multiplier.
+    [1.0] = 1.3,
+    [0.9] = 1.1,
+    [0.8] = 0.9,
+    [0.7] = 0.8,
+    [0.6] = 0.7,
+    [0.5] = 0.5,
+    [0.4] = 0.3,
+    [0.3] = 0.2,
+    [0.2] = 0.1,
+    [0.1] = 0.1,
+    [0.0] = 0.0,
+},
+class = { -- First number is class, see GetVehicleClass() https://docs.fivem.net/natives/?_0x29439776AAA00A62. Second is fuel usage multiplier.
+    [0] = 0.5, -- Compacts
+    [1] = 0.7, -- Sedans
+    [2] = 0.9, -- SUVs
+    [3] = 0.7, -- Coupes
+    [4] = 0.8, -- Muscle
+    [5] = 0.7, -- Sports Classics
+    [6] = 0.8, -- Sports
+    [7] = 0.8, -- Super
+    [8] = 0.9, -- Motorcycles
+    [9] = 0.9, -- Off-road
+    [10] = 0.9, -- Industrial
+    [11] = 0.7, -- Utility
+    [12] = 0.8, -- Vans
+    [13] = 0.0, -- Cycles
+    [14] = 0.5, -- Boats
+    [15] = 0.5, -- Helicopters
+    [16] = 0.5, -- Planes
+    [17] = 0.5, -- Service
+    [18] = 0.5, -- Emergency
+    [19] = 0.7, -- Military
+    [20] = 0.7, -- Commercial
+    [21] = 0.0, -- Trains
+}
+```
+
+## Per player configuration menu
+
+Players can open a client-sided configuration menu via the command `/fuelsettings`. This will show a menu in-game with various config options, this allows your players to customize their experience.
+
+![](/static/fuel_settings_menu.png)
+
+## Disable exploding pumps
+
+You enable/disable the exploding pumps by editing the `fxmanifest.lua` file.
+
+Remove the first `--` to **DISABLE** pumps exploding upon impact. Instead they will fragment apart.
+
+```lua
+-- data_file "DLC_ITYP_REQUEST" "tam_fuel_no_exploding_pumps.ytyp" -- Uncomment to disable pumps exploding on impact.
+```
+
+## Locals / Language
+
+All of the respective language/locales can be changed in the `locales` directory. 
+
+Users can set their language via the `/ox_lib` command in-game if its enabled. If the language file doesn't exist, it defaults to English.

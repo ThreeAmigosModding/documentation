@@ -1,0 +1,38 @@
+import { Steps } from 'nextra-theme-docs';
+
+# Installation
+
+This will go over the installation guide for TAM_Fuel. Please be sure to read this carefully and if you have any questions, feel free to ask in our Discord.
+
+<Steps>
+
+### Install & setup all dependencies
+- [ox_lib](https://github.com/overextended/ox_lib/releases/latest)
+- [ox_target](https://github.com/overextended/ox_target/releases/latest) (Highly Recommended) **OR** [qb-target](https://github.com/qbcore-framework/qb-target). **You do not need both!**
+- Make sure your server artifacts version is `9000` or above. Downloaded the [Windows](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) or [Linux](https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/) artifacts.
+- Make sure your game build is set to 2802 or higher. See how to set your gamebuild [here](https://forum.cfx.re/t/tutorial-forcing-gamebuilds-on-fivem/4784977).
+- Make sure your server is running OneSync (Formally Onesync Infinity) and **not** legacy. See how to enable onesync [here](https://forum.cfx.re/t/onesync-infinity-how-to-use-it/996612).
+
+### Install optional dependencies
+(These are entirely optional and are not required for the resource to work.)
+- [ox_inventory](https://github.com/overextended/ox_inventory/releases/latest) (Highly Recommended) **OR** [qb-inventory](https://github.com/qbcore-framework/qb-inventory). **You do not need both!**
+
+### Download the latest release from [keymaster](https://keymaster.fivem.net)
+
+### Add the resources to your server.cfg (or resources.cfg)
+
+```bash
+start ox_lib
+start framework # the name of your framework (i.e. ND_Core, es_extended, qbx_core). This is not necessary if you are using standalone.
+start ox_target # or qb-target. Though we prefer you use ox_target
+start ox_inventory # Optional, you do not need this.
+start TAM_Fuel
+```
+</Steps>
+
+## [Configuration](../fuel/configuration)
+
+
+## [Developer Docs](../fuel/developers)
+
+## [Troubleshooting](../fuel/troubleshooting)
