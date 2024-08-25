@@ -1,0 +1,121 @@
+---
+title: Better Radio Animations
+---
+
+Improve the default Radio Animations with our resource! You're able to assign different animations to different pieces of clothing, making it more immersive instead of the same animation regardless of where your radio actually is. 
+
+## Installation
+
+Add ``setr voice_enableRadioAnim 0`` to your server.cfg 
+
+**This WILL NOT work if you are using rp-radio**
+
+Download the release of [ox_lib](https://github.com/overextended/ox_lib) from  & add it to your server.cfg or resources.cfg **BEFORE** `TAM_BetterRadioAnims`
+
+Add `ensure TAM_BetterRadioAnims` to your server or resources cfg file
+
+Download [animations](https://www.gta5-mods.com/misc/leo-custom-anim) and add to stream folder
+
+### If using scully_emotemenu:
+
+**Add to scully_emotemenu/custom_emotes.lua  inside the ``Emotes = {}`` table:**
+```lua
+    {
+        Label = 'Radio 2',
+        Command = 'radio2',
+        Animation = 'radio_chatter',
+        Dictionary = 'random@arrests',
+        Options = {
+            Flags = {
+                Loop = true,
+                Move = true,
+            },
+        },
+    },
+    {
+        Label = 'Radio Chest',
+        Command = 'radiochest',
+        Animation = 'chest_mic',
+        Dictionary = 'anim@cop_mic_pose_002',
+        Options = {
+            Flags = {
+                Loop = true,
+                Move = true,
+            },
+        },
+    },
+    {
+        Label = 'Earpiece',
+        Command = 'earpiece',
+        Animation = 'cellphone_call_listen_base',
+        Dictionary = 'cellphone@',
+        Options = {
+            Flags = {
+                Loop = true,
+                Move = true,
+            },
+        },
+    },
+```
+
+### If using rpemotes:
+
+**Change `config.defaultEmote` to `wt3` or `wt4`**
+
+**Add to rpemotes/client/AnimationListCustom.lua to the ``CustomDP.Emotes = {}`` table:**
+```lua
+    ["radio2"] = {
+        "random@arrests",
+        "radio_chatter",
+        "Radio 2",
+        AnimationOptions = {
+            EmoteLoop = true,
+            EmoteMoving = true,
+        }
+    },
+    ["radiochest"] = {
+        "anim@cop_mic_pose_002",
+        "chest_mic",
+        "Radio Chest",
+        AnimationOptions = {
+            EmoteLoop = true,
+            EmoteMoving = true,
+        }
+    },
+    ["earpiece"] = {
+        "cellphone@",
+        "cellphone_call_listen_base",
+        "Earpiece",
+        AnimationOptions = {
+            EmoteLoop = true,
+            EmoteMoving = true,
+        }
+    },
+```
+
+## Configuration
+
+Configuring this resource is easy once you know how to do it.
+
+-debug: `boolean`
+    - Enable or disable debug mode. Also enables the ability to use commands to get drawable types & textures.
+-defaultEmote: `string`
+    - The default emote that plays if you dont have a valid clothing drawable on (Use wt3 or wt4 if using RPEmotes)
+-useKeybind: `boolean`
+    - Whether or not to enable/disable the use of keybinds instead of the PMA voice event handler
+-keybindKey: `string`
+    - The key to set for the keyboard keybind. Unused if `useKeybind` is set to `false`. See https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
+-controllerKey: `string`
+    - Button to set for controller keybind. Unused if `useKeybind` is set to `false`. See https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/pad_digitalbutton/
+-useEvent: `boolean`
+    - Whether or not to tie into the PMA voice event handler instead of the keybind. Do not enable both of these.
+-anim: `table`
+    - The animation options. Chest, shoulder, or earpiece.
+    - enable: `boolean`
+        - Enable/Disable the animation.
+    - drawable: `number`
+        - The drawable [(clothing type)]() for the radio animation.
+    - male: `table`
+        -varations: `table`
+            - Table of clothing variations that will enable the animation.
+        
