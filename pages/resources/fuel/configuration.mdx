@@ -7,9 +7,11 @@ On this page we will go over how to configure TAM_Fuel. All configuration files 
 
 The primary configuration file is `data/configuration.lua`. Here you will find all of the primary configuration options.
 ```lua
-config.debug = false -- Enables or disables the debug commands. (Currently the spawning of props & fuel management)
+config.debug = true -- Enable debug commands
 
-config.userSettings = true -- Should users be able to customize various settings on their end? (Load distances, hose styles, etc)
+
+-- Should users be able to customize various settings? (Load distances, hose styles, etc)
+config.userSettings = true -- Note, if this is disabled, everything below is global. If enabled, the default settings are below.
 
 config.spawnAdditionalGasPumps = true -- should the additional pumps defined in data/gasPumps.lua be spawned?
 
@@ -21,7 +23,7 @@ config.enableHose = true -- Should we use the hose or not? May be buggy, use at 
 
 config.hoseStyle = 3 -- Hose style. 1 - Thin Khaki | 2 - Thick Khaki | 3 - Thick Black (Default) | 4 - Really thin Black
 
-config.hoseLength = 10 -- Default hose length
+config.hoseLength = 10 -- Hose length
 
 config.maxHoseLength = 20 -- The maximum hose length before it breaks.
 
@@ -29,7 +31,7 @@ config.explosionsEnabled = true -- Should the gas pumps explode when the hose is
 
 config.enableFuelHud = true -- Enable or disable the fuel hud UI.
 
-config.hudStyle = "classic" -- Classic or Modern fuel hud style
+config.hudStyle = "classic" -- Classic or Modern
 
 config.enableFuelUI = true -- Enable to disable the fuel UI
 
@@ -52,7 +54,14 @@ config.inventory = {
     resource = "ox" -- Inventory Resource. Set custom in the respective bridge files per your framework.
 }
 
-config.rate = { -- price & fill rates per fuel type.
+config.colors = { -- Fuel bar UI colors depending on fuel type.
+    diesel = "#71ab95",
+    gas = "#F0A000",
+    electric = "#0096FF",
+    jetFuel = "#ADDFFF"
+}
+
+config.rate = {
     gas = {
         price = 0.15, -- price per tick
         fillRate = 0.25, -- how much to fill per tick. (ie: every 250ms add 0.25%)
@@ -71,7 +80,7 @@ config.rate = { -- price & fill rates per fuel type.
     }
 }
 
-config.jerryCan = { -- jerry can configuration
+config.jerryCan = {
     enabled = true, -- enable refilling via Jerry can and purchasing a jerry can from pump/ped.
     duration = 5000, -- Duration it takes to fill up car.
     price = 1000, -- price to purchase jerry can.
@@ -93,7 +102,7 @@ config.jerryCan = { -- jerry can configuration
 config.target = {
     enabled = true, -- should target be enabled. Currently this is the only way to interact with anything.
     targetResource = "ox_target", -- target resource name. "ox_target" | "qb-target" | "custom".
-    distance = 4, -- Interact distance
+    distance = 4,
     bones = { -- List of bones to detect for when placing or grabbing the nozzle from the vehicle - or fueling with a jerrycan.
         "petrolcap",
         "petroltank",
@@ -130,36 +139,38 @@ config.progress = {
     end
 }
 
-config.gasModels = { -- Models that support the fuel type "gas". Please note the backticks ( ` ) and not ' or "
-    `prop_gas_pump_old2`, 
+config.gasModels = {
+    `prop_gas_pump_old2`,
     `prop_gas_pump_1a`,
     `prop_vintage_pump`,
     `prop_gas_pump_old3`,
     `prop_gas_pump_1c`,
     `prop_gas_pump_1b`,
     `prop_gas_pump_1d`,
-    `denis3d_prop_gas_pump`
+    `denis3d_prop_gas_pump`, -- gabz pump
+    `amb_rox_caspump_pf` -- roxwood pump
 }
 
-config.electricModels = { -- Models that support the fuel type "electric". Please note the backticks ( ` ) and not ' or "
+config.electricModels = {
     `tam_ev_charger`
 }
 
-config.dieselModels = { -- Models that support the fuel type "diesel". Please note the backticks ( ` ) and not ' or "
+config.dieselModels = {
     `prop_gas_pump_1a`,
     `prop_gas_pump_1c`,
     `prop_gas_pump_1b`,
     `prop_gas_pump_1d`,
     `prop_vintage_pump`,
-    `denis3d_prop_gas_pump` -- Gabz gas station pump model
+    `denis3d_prop_gas_pump`, -- Gabz gas station pump model
+    `amb_rox_caspump_pf` -- roxwood pump
 }
 
-config.jetFuelModels = { - -- Models that support the fuel type "jetFuel / AVGas". Please note the backticks ( ` ) and not ' or "
+config.jetFuelModels = {
     `utillitruck2`,
     `prop_gas_tank_04a`
 }
 
-config.allPumpModels = { -- List of all pump models, for registering the 3rd eye. Please note the backticks ( ` ) and not ' or "
+config.allPumpModels = {
     `utillitruck2`,
     `prop_gas_tank_04a`,
     `prop_gas_pump_1a`,
@@ -170,15 +181,18 @@ config.allPumpModels = { -- List of all pump models, for registering the 3rd eye
     `denis3d_prop_gas_pump`, -- Gabz gas station pump model
     `prop_gas_pump_old2`,
     `prop_gas_pump_old3`,
+    `amb_rox_caspump_pf` -- roxwood pump
 }
 
-config.pumpOffsets = { -- Hose offsets for the pumps. 
+
+config.pumpOffsets = {
     [`utillitruck2`] = vec3(0, 0, -0.2),
     [`prop_gas_tank_04a`] = vec3(0, 0, 2.5),
     [`prop_gas_pump_1a`] = vec3(0, 0, 2.3),
     [`prop_gas_pump_1c`] = vec3(0, 0, 2.3),
     [`prop_gas_pump_1b`] = vec3(0, 0, 2.3),
     [`prop_gas_pump_1d`] = vec3(0, 0, 2.3),
+    [`amb_rox_caspump_pf`] = vec3(0, 0, 2.3), -- roxwood pump
     [`prop_vintage_pump`] = vec3(0, 0, 1.15),
     [`denis3d_prop_gas_pump`] = vec3(0, 0, 2), -- Gabz gas station pump model
     [`prop_gas_pump_old2`] = vec3(0, 0, 0.9),
@@ -186,10 +200,10 @@ config.pumpOffsets = { -- Hose offsets for the pumps.
     [`tam_ev_charger`] = vec3(0, 0, 0.7),
 }
 
-config.vehicleOffsets = { -- Specific vehicle nozzle placement offsets.
-    [`conada`] = vec3(0, 0, 0),
+config.vehicleOffsets = {
     [`emperor2`] = vec3(0, 0, -0.25),
-    [`neon`] = vec3(0, 0, -0.25)
+    [`neon`] = vec3(0, 0, -0.25),
+    [`dloader`] = vec3(0.2, 0.9, -0.25)
 }
 ```
 
