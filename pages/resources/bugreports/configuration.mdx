@@ -1,0 +1,65 @@
+# Configuration
+
+On this page we will go over how to configure TAM_BugReports. All configuration files are in the `data/` directory or are done via convars.
+
+
+## Main Configuration
+
+The primary configuration file is `data/configuration.lua`. Here you will find all of the primary configuration options.
+```lua
+config.cooldown = 300000 -- Cooldown time in miliseconds. This is set to 300000 (15 minutes) by default.
+
+config.identifier = 'license' -- The identifier to link to the player. Will be formated like:  Username | Identifier. Available options are: https://docs.fivem.net/docs/scripting-reference/runtimes/lua/functions/GetPlayerIdentifiers/#license-types
+
+config.loggerEnabled = false -- Should we use ox_libs logger functionality?
+
+config.githubEnabled = false -- Should we create a github issue when a user submits a bug report?
+
+config.discordEnabled = true -- Should we send a Discord embed via webhook when a user submits a bug report?
+
+config.embedConfig = {
+    username = "TAM_BugReports", -- The bots username
+    logo = "https://raw.githubusercontent.com/ThreeAmigosModding/ThreeAmigosModding/refs/heads/main/img/tam_logo_1k.png" -- Direct image link to the bots profile picture.
+}
+
+config.keybind = {
+    enabled = true, -- Should there be a keybind setup to open the UI?
+    defaultKey = "F10"
+}
+
+config.severity = { -- List of available severity options
+    "Minor",
+    "Major",
+    "Critical"
+}
+
+config.types = { -- List of available bug report types.
+    "Other",
+    "Graphics",
+    "UI",
+    "Performance",
+    "Audio",
+    "NPCs",
+    "Animation",
+    "Interaction",
+    "Terrain/Map",
+    "Vehicle",
+    "PVP"
+}
+```
+
+## Convar Configuration
+
+These convars are used for confidential information that shouldn't be replicated to the client.
+```bash
+set tamReports:githubToken "GITHUB_PERSONAL_ACCESS_TOKEN" # Your github personal access token
+set tamReports:githubRepo "REPO_NAME" # The github repository name to open the issue on.
+set tamReports:githubOrg "ORG_NAME" # The github organization / user that owns the github repository.
+set tamReports:discordWebhook "DISCORD_WEBHOOK" # The webhook URL to send discord messages to.
+```
+
+## Locals / Language
+
+All of the respective language/locales can be changed in the `locales` directory. 
+
+Users can set their language via the `/ox_lib` command in-game if its enabled. If the language file doesn't exist, it defaults to English.
