@@ -56,7 +56,7 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: 'https://github.com/ThreeAmigosModding/documentation',
   footer: {
-    text: 'Copyright © 2023 Three Amigos Modding',
+    text: 'Copyright © 2024 Three Amigos Modding',
   },
   head: useHead,
   useNextSeoProps: useNextSeoProps,
