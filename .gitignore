@@ -4,3 +4,8 @@ package-lock.json
 
 .next
 
+.astro
+
+dist
+
+pnpm-lock.yaml
