@@ -18,21 +18,6 @@ This will go over the installation guide for TAM_Police. Please be sure to read 
 
 ### Download the latest release from [CFX Portal](https://portal.cfx.re)
 
-### (Optional) Configure resource integrations
-    This is optional, add these to your server.cfg above where the resources start.
-```bash
-    # Three Amigos Modding Cross-Resource Configuration
-    # "auto" will automatically detect compatible resources/frameworks.
-
-    setr tam:framework "auto" # "auto" | "qb" | "qbx" | "nd" | "esx" | "ox"
-
-    setr tam:inventory "auto" # "auto" | "ox"
-
-    setr tam:target "auto" # "auto" | "ox" 
-
-    setr tam:notifications "ox" # "ox"
-```
-
 ### (Required if using inventory) Add the items & images.
 
 Add the items from `_INSTALL/items/items.lua` to your `ox_inventory/data/items.lua` & the images from `_INSTALL/items/images` to the `ox_inventory/web/images` directory.
