@@ -1,0 +1,87 @@
+import { Callout, Tabs } from 'nextra/components';
+
+# Troubleshooting
+
+Here's a list basic troubleshooting steps for TAM_GarbageJob.
+
+## ox_lib related problems
+
+- `ox_lib is missing, please ensure you have the latest version installed! \n https://github.com/communityox/ox_lib/releases/latest`
+    - This means you don't have ox_lib installed. Please install the latest release from [here](https://github.com/communityox/ox_lib/releases/latest)
+- ox_lib is outdated! Please ensure you upgrade to the latest version! \n https://github.com/communityox/ox_lib/releases/latest
+    - This means that your ox_lib version is out of date. Please update it from [here](https://github.com/communityox/ox_lib/releases/latest)
+
+## Resource Startup Errors
+
+### Resource name mismatch
+
+You have renamed the resource, please be sure that the resource is named `TAM_GarbageJob`.
+
+### Resource metadata check failed
+
+You have modified the version or author entries in the fxmanifest.lua, please restore this file back to the original from the CFX Portal.
+
+### Resource file validation failed
+
+You have modified or removed necessary files like `data/configuration.lua` or attempted to remove the `LICENSE.md` file. Please reinstall from the CFX portal.
+
+### Configuration failed to load.
+
+You have an error in the `data/configuration.lua` file, either fix it or restore back to the original.
+
+### Failed to load integration 'x' for category 'x'
+
+You have messed up the integration config values in `data/configuration.lua` or the files are missing from the bridge. Please ensure the files exist or reinstall from the CFX portal.
+
+### Failed to start resource! Please fix failed startup checks.
+
+The resource has failed to start due to one of the above errors, please check back in the console to see the exact reason.
+
+## X feature isn't working!
+
+Please be sure that you haven't disabled the feature entirely, some features are also dependent on a framework or inventory system.
+
+
+## How to report a bug
+
+If you encounter a bug or unexpected behavior in the garbage job, please follow these steps to ensure a quick and effective response:
+
+<Callout type="info">
+    We cannot possibly fix a bug if we are unable to reproduce it on our side, please be as detailed as possible with your reports.
+
+    Reports with minimal information may be ignored or closed.
+</Callout>
+
+### Step 1: Join the Support Discord
+- Join the official support server: [discord.gg/YzC4Du7WY](https://discord.gg/YzC4Du7WY)
+- Open a support ticket or create a thread in the `#bug-reports` channel.
+
+### Step 2: Provide Detailed Information
+When reporting a bug, make sure to include the following:
+
+1. **Steps to Reproduce**
+   - Clearly explain what actions led to the bug.
+   - Example:  
+     1. Clock in at the La Puerta location.  
+     2. Spawn the Brute BinMaster D8.  
+     3. Attempt to pick up a dumpster from the assigned zone.
+     4. Observe that the dumpster does not attach to the truck, regardless of orientation.
+
+2. **Server Artifact Version**
+   - Provide the artifact version your server is using. You can get this by running the cmd `version` in txAdmin console.
+   - Example: `v2636`
+
+3. **Game Build Version**
+   - Include your GTA V build number. You can get this by running the cmd `sv_enforceGameBuild` in txAdmin console.
+   - Example: `2189`
+
+4. **Resource Version**
+   - Include the version of the garbage job resource you are running, this is listed in the fxmanifest.lua file.
+   - Example: `v1.5.2`
+
+### Step 3: Attach Logs or Screenshots/Videos (Optional)
+- Any server logs, client console messages, or screenshots/videos of errors help developers diagnose issues faster.
+
+### Step 4: Submit
+- Send all the above information in your support ticket or thread.
+- Be as detailed as possible to help the team reproduce and fix the issue efficiently.

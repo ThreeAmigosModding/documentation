@@ -1,0 +1,46 @@
+import { Steps } from 'nextra-theme-docs';
+
+# Installation
+
+This will go over the installation guide for TAM_GarbageJob. Please be sure to read this carefully and if you have any questions, feel free to ask in our Discord.
+
+<Steps>
+
+### Install & setup all dependencies
+- [ox_lib](https://github.com/communityox/ox_lib/releases/latest)
+- [ox_target](https://github.com/communityox/ox_target/releases/latest) (Or your own, integrated yourself.)
+- Make sure your server artifacts version is `18000` or above. Downloaded the [Windows](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) or [Linux](https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/) artifacts.
+- Make sure your game build is set to 3258 or higher. See how to set your gamebuild [here](https://forum.cfx.re/t/tutorial-forcing-gamebuilds-on-fivem/4784977).
+- Make sure your server is running OneSync (Formally Onesync Infinity) and **not** legacy. See how to enable onesync [here](https://forum.cfx.re/t/onesync-infinity-how-to-use-it/996612).
+
+### Install optional dependencies
+- [ox_inventory](https://github.com/overextended/ox_inventory/releases/latest) **This is optional, however some features will not work without it**
+- [TAM_GarbageJob_Vehicles](https://github.com/threeamigosmodding/tam_garbagejob_vehicles) **This is optional if you want to use the add-on vehicles**
+
+### Download the latest release from [CFX Portal](https://portal.cfx.re)
+
+### Remove Resources
+
+Remove `qb-garbagejob` or `qbx_garbagejob` or any other garbage related resources you have.
+
+### Install Resources
+
+Add both `TAM_GarbageJob` and, optionally, `TAM_GarbageJob_Vehicles` to your resources folder.
+
+### Add the resources to your server.cfg (or resources.cfg)
+
+```bash
+start ox_lib
+start framework # the name of your framework (i.e. ND_Core, es_extended, qbx_core). This is not necessary if you are using standalone.
+start ox_target # or whatever target resource you're using.
+start ox_inventory # Optional
+start TAM_GarbageJob_Vehicles # Optional, if you want to use the included vehicle config.
+start TAM_GarbageJob
+```
+</Steps>
+
+## [Configuration](../garbage/configuration)
+
+## [Developer Docs](../garbage/developers)
+
+## [Troubleshooting](../garbage/troubleshooting)
