@@ -199,17 +199,17 @@ THe zones data file is located at `data/zones.lua` and includes over a dozen pre
 
                 -- Array of controls to be disabled when moving/carrying the dumpsters.
                 -- https://docs.fivem.net/docs/game-references/controls/
-                -- Additionally, you can add more stuff to be disable (ie phone) to the `blockActions` function in bridge/config/client.lua
+                -- Additionally, you can add more stuff to be disable (ie phone) to the `blockActions` function in bridge/hooks/client.lua
                 disableDumpsterControls = { 21, 22, 23, 24, 25, 36, 44, 45, 263, 264, 73, 257 }, -- array. Default: { 21, 22, 23, 24, 25, 36, 44, 45, 263, 264, 73, 257 }
 
                 -- Array of controls to be disabled when moving/carrying the bins.
                 -- https://docs.fivem.net/docs/game-references/controls/
-                -- Additionally, you can add more stuff to be disable (ie phone) to the `blockActions` function in bridge/config/client.lua
+                -- Additionally, you can add more stuff to be disable (ie phone) to the `blockActions` function in bridge/hooks/client.lua
                 disableBinControls = { 21, 22, 23, 24, 25, 36, 44, 45, 263, 264, 73, 257 }, -- array. Default: { 21, 22, 23, 24, 25, 36, 44, 45, 263, 264, 73, 257 }
 
                 -- Array of controls to be disabled when moving/carrying the bags.
                 -- https://docs.fivem.net/docs/game-references/controls/
-                -- Additionally, you can add more stuff to be disable (ie phone) to the `blockActions` function in bridge/config/client.lua
+                -- Additionally, you can add more stuff to be disable (ie phone) to the `blockActions` function in bridge/hooks/client.lua
                 disableBagControls = { 23, 24, 25, 36, 44, 45, 263, 264, 73, 257 } -- array.  Default: { 23, 24, 25, 36, 44, 45, 263, 264, 73, 257 }
             }
 
@@ -765,7 +765,7 @@ THe zones data file is located at `data/zones.lua` and includes over a dozen pre
 
 All of the framework and resource integrations can be found in the `bridge` directory, we expect you to have at least a basic understanding of Lua & how to integrate with other resources to edit these. Minimal support will be provided. If you have anything you want to recommend we integrate with, please let us know and we'll try our best to add it!
 
-Included are about a dozen hook functions in the `bridge/config` directory, here you can integrate various functions.
+Included are about a dozen hook functions in the `bridge/hooks` directory, here you can integrate various functions.
 
 
 ## Locals / Language
