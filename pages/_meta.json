@@ -1,23 +1,35 @@
 {
-    "index": "Introduction",
-    "tips": "Tips & Tricks",
-    "resources": "Resources",
-    "store": {
-        "title": "Store",
-        "type": "page",
-        "href": "https://threeamigos.shop",
-        "newWindow": true
-    },
-    "perimeter": {
-        "title": "Perimeter Gaming",
-        "type": "page",
-        "href": "https://discord.gg/perimeter",
-        "newWindow": true
-    },
-    "hosting": {
-        "title": "Hosting",
-        "type": "page",
-        "href": "https://prism-host.com",
-        "newWindow": true
-    }
+	"index": "Introduction",
+	"tips": "Tips & Tricks",
+	"faq": "FAQ",
+	"Resources": {
+		"type": "separator",
+		"title": "Resources"
+	},
+	"paid": "Paid Scripts",
+	"free": "Free Scripts",
+	"store": {
+		"title": "Store",
+		"type": "page",
+		"href": "https://threeamigos.shop",
+		"newWindow": true
+	},
+	"support": {
+		"title": "Support",
+		"type": "page",
+		"href": "https://threeamigos.shop/discord",
+		"newWindow": true
+	},
+	"perimeter": {
+		"title": "Perimeter Gaming",
+		"type": "page",
+		"href": "https://discord.gg/perimeter",
+		"newWindow": true
+	},
+	"hosting": {
+		"title": "Hosting",
+		"type": "page",
+		"href": "https://prism-host.com",
+		"newWindow": true
+	}
 }

@@ -1,35 +1,33 @@
 {
-  "name": "tam_docs",
-  "version": "1.0.0",
-  "description": "Documentation for Three Amigos Modding",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ThreeAmigosModding/documentation.git"
-  },
-  "author": "Shu Ding <g@shud.in>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ThreeAmigosModding/documentation/issue"
-  },
-  "homepage": "https://github.com/ThreeAmigosModding/documentation#readme",
-  "dependencies": {
-    "@tabler/icons-react": "^3.31.0",
-    "@tailwindcss/postcss": "^4.0.11",
-    "next": "^13.0.6",
-    "nextra": "2.13.4",
-    "nextra-theme-docs": "2.13.4",
-    "postcss": "^8.5.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.4.4"
-  },
-  "devDependencies": {
-    "@types/node": "18.11.10",
-    "typescript": "^4.9.3"
-  }
+	"name": "tam_docs",
+	"version": "1.0.0",
+	"description": "Documentation for Three Amigos Modding",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "biome check",
+		"format": "biome format --write"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ThreeAmigosModding/documentation.git"
+	},
+	"bugs": {
+		"url": "https://github.com/ThreeAmigosModding/documentation/issue"
+	},
+	"homepage": "https://github.com/ThreeAmigosModding/documentation#readme",
+	"dependencies": {
+		"@tabler/icons-react": "^3.31.0",
+		"next": "^13.0.6",
+		"nextra": "2.13.4",
+		"nextra-theme-docs": "2.13.4",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.7",
+		"@types/node": "18.11.10",
+		"typescript": "^4.9.3"
+	}
 }

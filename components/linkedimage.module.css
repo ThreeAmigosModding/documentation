@@ -1,33 +1,33 @@
-
 .imageLink {
-    display: inline;
-    margin: auto 4% auto auto;
+	display: inline;
+	margin: auto 4% auto auto;
 }
 
 .image {
-    display: inline;
-    height: 100%;
+	display: inline;
+	height: 100%;
 }
 
 .image {
-    border: .07rem solid #373a40;
-    border-radius: 10px;
-    transition: border-color .2s ease, scale .2s ease;
+	border: 0.07rem solid #373a40;
+	border-radius: 10px;
+	transition:
+		border-color 0.2s ease,
+		scale 0.2s ease;
 }
 .image:hover {
-    border-color: #228be6;
-    scale: 0.98;
+	border-color: #228be6;
+	scale: 0.98;
 }
 
-
 @media (max-width: 768px) {
-    .imageLink {
-        display: block;
-        width: 100%;
-        margin: auto auto 7% auto;
-    }
-    .image {
-        display: block;
-        width: 100%;
-    }
+	.imageLink {
+		display: block;
+		width: 100%;
+		margin: auto auto 7% auto;
+	}
+	.image {
+		display: block;
+		width: 100%;
+	}
 }
