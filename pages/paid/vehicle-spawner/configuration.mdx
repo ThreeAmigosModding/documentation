@@ -1,0 +1,278 @@
+import { Callout, Tabs } from 'nextra/components';
+
+# Advanced Vehicle Spawner - Configuration
+
+## Configuration & Data files
+
+All of the configuration & data files have detailed comments explaining how to configure everything to your liking, if you need assistance please reach out to us via Discord.
+
+The main config file is located at `data/configuration.lua` and handles the general configuration data.
+
+The locations data file is located at `data/locations.lua` and handles all of spawner & return locations
+
+Sample vehicle location data is located at `data/_sample_vehicles.lua` and is to be used as a template for creating new departments/categories of vehicles in the spawner.
+Each department will have its own data file, you will need to create it with the format: `departmentId_vehicles.lua` where `departmentId` is the ID of the department defined in the `configuration.lua` file..
+
+
+<Tabs items={["configuration.lua", "locations.lua", "_sample_vehicles.lua"]}>
+    <Tabs.Tab>
+        ```lua
+            -- Enable or disable debug mode. This is useful for setting up your zones & vehicles.
+config.debug = false -- boolean (true or false). Default: false
+
+-- The framework to use. Recommended to leave this as "auto"
+-- Available: "auto" | "qbox" | "qb" | "esx" | "nd" | "none" | "custom"
+config.framework = "auto" -- string. Default: "auto"
+
+-- The interaction type to use. Currently only target.
+-- Available: "auto" | "ox_target" | "custom"
+config.interact = "auto" -- string. Default: "auto"
+
+-- The fuel system to integrate with.
+-- Available: "auto" | "tam_fuel" | "renewed-fuel" | "ox_fuel" | "none" | "custom"
+config.fuelSystem = "auto" -- string. Default: "auto"
+
+-- The vehicle key system to integrate with.
+-- Available: "auto" | "qbx_vehiclekeys" | "qb-vehiclekeys" | "renewed-keys" | "wasabi_carlock" | "none" | "custom"
+config.vehicleKeys = "auto" -- string. Default: "auto"
+
+-- The notification system to use.
+-- Available: "ox" | "custom"
+config.notifications = "ox" -- string. Default: "ox"
+
+-- Should we spawn peds at the locations?
+config.spawnPeds = true -- string. Default: true
+
+-- Radius around the points for the keybind interactions, this is ignored if you aren't using text-ui interactions.
+config.keybindRadius = 5 -- number. Default: 5
+
+-- Should we allow players to return their vehicles.
+config.returnVehicles = true -- boolean (true or false). Default: true
+
+-- Should we track the amount of vehicles that are spawned at once?
+config.vehicleTracking = true -- boolean (true or false). Default: true
+
+-- Should we automatically have the engine turn on when the vehicle is spawned?
+config.autoEngineOn = true -- boolean (true or false). Default: true
+
+-- Should we spawn vehicles with ServerSetter?
+-- This can sometimes cause issues on highly populated servers, highly recommended to have config.teleportIntoVehicles set to false to avoid issues.
+config.createVehicleWithServerSetter = false -- boolean (true or false). Default: false
+
+-- Should we teleport players into the vehicles automatically?
+-- This will cause issues if enabled alongside config.createVehicleWithServerSetter.
+config.teleportIntoVehicles = false -- boolean (true or false). Default: false
+
+-- Should vehicles cost money to spawn?
+config.vehiclesCostMoney = false -- boolean (true or false). Default: false
+
+-- What is the payment method we should use for vehicles?
+-- This is usually "bank" or "cash"
+config.paymentType = "bank" -- string. Default: "bank"
+
+-- Should we create a temporary blip of the vehicle that was just spawned?
+config.temporaryBlipOnSpawn = true -- boolean (true or false). Default: true
+
+-- Should we have a blip for every vehicle the player has out?
+config.vehicleBlips = true -- boolean (true or false). Default: true
+
+-- The maximum limit of how many vehicles a player can spawn at once.
+config.maximumVehicles = 3 -- number. Default: 3
+
+-- The time, in milliseconds, to check if vehicles still exist, if not to clear them from the tracked list.
+-- We recommend leaving this as default. This sets the period at which vehicles will automatically be untracked when they no longer exist.
+config.cleanupPeriod = 10000 -- number. Default: 10000
+
+-- This is an image URL of the logo to display on the UI.
+config.uiLogo = "https://threeamigos.shop/_image?href=%2F_tam%2Flogo.CUgL6tMw.png" -- strings
+
+-- You can pass tailwindcss classes through this to the logo.
+config.uiLogoClass = "rounded-full" -- string
+
+-- The target configuration.
+config.target = {
+    -- The font awesome icon to display on the target option
+    icon = "fas fa-warehouse", -- string. Default: "fas fa-warehouse"
+
+    -- The distance that players will be able to interact from.
+    distance = 2, -- number. Default: 2
+
+    -- Should we draw a sprite at the location?
+    drawSprite = true, -- boolean (true / false). Default: true
+}
+
+-- Blip configurations
+-- These are for each spawn location & for the return locations.
+config.blips = {
+    spawn = {
+        -- Should the blips for the location to open the UI exist?
+        enabled = true, -- boolean. Default: true
+        -- The blip sprite.
+        sprite = 357, -- number. Default: 357
+        -- The blip color
+        color = 3, -- number. Default: 3
+        -- The blip scale
+        scale = 0.8, -- number. Default: 0.8
+        -- The label of the blip, this is set to the locale key by default.
+        label = locale("common.blip_vehicle_spawner"),
+    },
+    returns = {
+        -- Should the blips for the location to return the vehicle exist?
+        enabled = true, -- boolean. Default: true
+        -- The blip sprite.
+        sprite = 357, -- number. Default: 357
+        -- The blip color
+        color = 5, -- number. Default: 3
+        -- The blip scale
+        scale = 0.8, -- number. Default: 0.8
+        -- The label of the blip, this is set to the locale key by default.
+        label = locale("common.blip_return_vehicle_point"),
+    },
+    temporary = { -- The temporary blip configuration, used if config.temporaryBlipOnSpawn is set to true.
+        -- The blip sprite.
+        sprite = 326, -- number. Default: 357
+        -- The blip color
+        color = 46, -- number. Default: 3
+        -- The blip scale
+        scale = 0.8, -- number. Default: 0.8
+        -- The label of the blip, this is set to the locale key by default.
+        label = locale("common.blip_temporary"),
+
+        -- Should the blip show on the minimap regardless of distance.
+        onlyNearby = true
+    },
+    vehicle = {
+        -- The blip sprite.
+        sprite = 326, -- number. Default: 357
+        -- The blip color
+        color = 11, -- number. Default: 3
+        -- The blip scale
+        scale = 0.8, -- number. Default: 0.8
+        -- The label of the blip, this is set to the locale key by default.
+        label = locale("common.blip_spawned_vehicle"),
+
+        -- Should the blip show on the minimap regardless of distance.
+        onlyNearby = false
+    }
+}
+
+-- Default Keybinds
+-- All of these can be changed by your players in their Settings -> Keybinds -> FiveM
+config.defaultKeybinds = {
+    returnVehicle = "E" -- string. They key to return the vehicle. Default: "E"
+}
+
+-- Configure the departments here.
+-- This works by adding the departments to the sidebar of the UI.
+-- Each department will have its own data file, you will need to create it with the format: departmentId_vehicles.lua where departmentId is the ID of the department defined below.
+-- You can read more here: TODO: Insert docs link
+config.departments = {
+    -- Sample Department
+    -- Copy and paste this to add more.
+    police = { -- department ID, will be used to define what vehicles go to what department.
+
+        -- The label that will be displayed on the header & the tooltip for the icon.
+        label = "Los Santos Police", -- string
+
+        -- The icon that will be displayed on the sidebar
+        -- This supports any Iconify icons, ie: "lucide:shield" https://icon-sets.iconify.design/
+        iconName = "lucide:shield", -- string
+
+        -- The icon color, this can either be a hex code or a tailwind color, ie "red-400".
+        -- Here's a list of default tailwind colors: https://v3.tailwindcss.com/docs/customizing-colors
+        iconColor = "#3b82f6", -- string
+    },
+    fire = { -- department ID, will be used to define what vehicles go to what department.
+
+        -- The label that will be displayed on the header & the tooltip for the icon.
+        label = "Los Santos Fire", -- string
+
+        -- The icon that will be displayed on the sidebar
+        -- This supports any Iconify icons, ie: "lucide:shield" https://icon-sets.iconify.design/
+        iconName = "lucide:fire", -- string
+
+        -- The icon color, this can either be a hex code or a tailwind color, ie "red-400".
+        -- Here's a list of default tailwind colors: https://v3.tailwindcss.com/docs/customizing-colors
+        iconColor = "#ef4444", -- string
+    }
+}
+        ```
+    </Tabs.Tab>
+    <Tabs.Tab> 
+        ```lua
+                {
+        -- A unique friendly identifier to be used internally, this isn't shown to the player at all.
+        id = "location_one", -- string
+
+        -- Coordinates of the specific location.
+        -- This can be a vec4 to set ped heading if you choose to use the peds.
+        coords = vec4(458.639, -1017.218, 28.197, 85.178), -- vector3 | vector4
+
+        -- A table (array) of available departments here. You can set the departments in config.departments.
+        availableDepartments = { "police" }, -- array of available departments at this location.
+
+        -- Ped configuration, this is ignored if config.spawnPeds is false.
+        ped = {
+            -- Ped model
+            model = `S_M_Y_XMech_01`, -- ped model hash
+
+            -- Scenario to play on the ped
+            scenario = "WORLD_HUMAN_CLIPBOARD", -- string
+
+            -- Optionally, you can pass through animations instead of a scenario.
+            animDict = "animDict", -- string
+            animName = "anim_name" -- string
+        },
+
+        -- The return position configuration, allowing users to return their vehicles.
+        returnConfig = {
+            -- Coords of the return point.
+            coords = vec3(462.234, -1019.669, 28.109), -- vector3
+
+            -- Radius around the point that the player will need to be inside of to return their vehicle.
+            radius = 5 -- number
+        },
+    }
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab> 
+        ```lua
+        {
+        name = "Vapid Stainer", -- Vehicle Name
+        model = `police1`, -- Model
+        category = "Patrol", -- The category of the vehicle, vehicles with the same category will be grouped together.
+        spawnCoords = vec4(-1112.314331, -833.132996, 12.974954, 129.12471008301), -- Coordinates that the vehicle will spawn at.
+        groups = { -- The groups that will have permission to spawn this vehicle.
+            -- groupName = grade
+            police = 0
+        },
+        limit = 3, -- The maximum amount of this vehicle that can be spawned at once.
+        -- The cost to spawn the vehicle
+        cost = 4000, -- number
+        -- The vehicle type,
+        -- Vehicle types
+            -- automobile
+            -- bike
+            -- boat
+            -- heli
+            -- plane
+            -- submarine
+            -- trailer
+            -- train
+        vehicleType = "automobile",
+        -- The vehicle properties, this is fetched via the `/getvehprops` command when Config.debug is enabled.
+        -- See https://coxdocs.dev/ox_lib/Modules/VehicleProperties/Client#vehicle-properties for more info
+        vehProps = {...}
+    },
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+
+## Bridge & Integration Configuration
+
+All of the framework and resource integrations can be found in the `bridge` directory, we expect you to have at least a basic understanding of Lua & how to integrate with other resources to edit these. Minimal support will be provided. If you have anything you want to recommend we integrate with, please let us know and we'll try our best to add it!
+
+## Locals / Language
+
+All of the respective language/locales & command names can be changed in the `locales` directory. Users can set their language via the `/ox_lib` command in-game if its enabled. If the language file doesn't exist, it defaults to English. You can set the default locale via `setr ox:locale en` convar in your server.cfg file. You can read more here: https://coxdocs.dev/ox_lib/Modules/Locale/Shared
